@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'screens/home/home_screen.dart';
+import 'routes/route_generator.dart';
+import 'screens/welcome/welcome_screen.dart';
 import 'styles/design_config.dart';
 
 class App extends StatelessWidget {
@@ -12,7 +13,9 @@ class App extends StatelessWidget {
         designSize: DesignConfig.size,
         builder: () => const MaterialApp(
           title: 'Lohfinder',
-          home: HomeScreen(title: 'Lohfinder'),
+          initialRoute: WelcomeScreen.route,
+          onGenerateRoute: RouteGenerator.generateRoute,
+          debugShowCheckedModeBanner: false,
         ),
       );
 }
