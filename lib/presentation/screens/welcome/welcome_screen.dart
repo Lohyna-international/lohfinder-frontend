@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_one.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -81,7 +82,9 @@ class WelcomeScreen extends StatelessWidget {
         ],
       );
 
-  void _onSignUpTap(BuildContext context) {}
+  void _onSignUpTap(BuildContext context) {
+    Navigator.pushNamed(context, SignUpStepOne.route);
+  }
 
   void _onSignInTap() {}
 }
