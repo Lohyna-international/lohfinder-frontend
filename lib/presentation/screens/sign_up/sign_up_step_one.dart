@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_two.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 
@@ -15,14 +16,14 @@ class SignUpStepOne extends StatelessWidget {
         body: Column(
           children: [
             const LFHeader(),
-            SizedBox(height: 45.h),
+            SizedBox(height: 20.h),
             const SignUpStepTitle(
               stepNumber: 1,
               titleText: 'Tell us who you are',
             ),
             SizedBox(height: 66.h),
             LFButton(
-              onPressed: () {},
+              onPressed: () => _onVolunteerPressed(context),
               text: "I'm a volunteer",
             ),
             SizedBox(height: 66.h),
@@ -33,4 +34,8 @@ class SignUpStepOne extends StatelessWidget {
           ],
         ),
       );
+
+  void _onVolunteerPressed(BuildContext context) {
+    Navigator.pushNamed(context, SignUpStepTwo.route);
+  }
 }
