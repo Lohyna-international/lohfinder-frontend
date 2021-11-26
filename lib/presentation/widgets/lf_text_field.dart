@@ -7,6 +7,7 @@ class LFTextField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final String hintText;
   final bool obscureText;
+  final int linesCount;
 
   const LFTextField({
     Key? key,
@@ -14,6 +15,7 @@ class LFTextField extends StatelessWidget {
     required this.onChanged,
     required this.hintText,
     this.obscureText = false,
+    this.linesCount = 1,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,8 @@ class LFTextField extends StatelessWidget {
         style: _style(),
         decoration: _decoration(),
         cursorColor: LFColors.primary,
+        minLines: linesCount,
+        maxLines: linesCount,
       );
 
   TextStyle _style() => TextStyle(fontSize: 36.sp);

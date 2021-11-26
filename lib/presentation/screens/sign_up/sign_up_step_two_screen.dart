@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_three_screen.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_text_field.dart';
 
 import 'local_widgets/sign_up_step_title.dart';
 
-class SignUpStepTwo extends StatefulWidget {
+class SignUpStepTwoScreen extends StatefulWidget {
   static const String route = '/sign_up_step_two';
 
-  const SignUpStepTwo({Key? key}) : super(key: key);
+  const SignUpStepTwoScreen({Key? key}) : super(key: key);
 
   @override
-  _SignUpStepTwoState createState() => _SignUpStepTwoState();
+  _SignUpStepTwoScreenState createState() => _SignUpStepTwoScreenState();
 }
 
-class _SignUpStepTwoState extends State<SignUpStepTwo> {
+class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -90,7 +91,11 @@ class _SignUpStepTwoState extends State<SignUpStepTwo> {
       );
 
   Widget _nextButton() => LFButton(
-        onPressed: () {},
+        onPressed: _goNext,
         text: 'Next',
       );
+
+  void _goNext() {
+    Navigator.pushNamed(context, SignUpStepThreeScreen.route);
+  }
 }
