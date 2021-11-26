@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_in/sign_in_screen.dart';
 import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_one_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 
@@ -28,7 +29,7 @@ class WelcomeScreen extends StatelessWidget {
               _accountText(
                 introText: 'Or maybe you already have an account? Then, ',
                 signText: 'Sign in',
-                onTap: _onSignInTap,
+                onTap: () => _onSignInTap(context),
               ),
             ],
           ),
@@ -75,9 +76,6 @@ class WelcomeScreen extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
-            splashColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
           ),
         ],
       );
@@ -86,5 +84,7 @@ class WelcomeScreen extends StatelessWidget {
     Navigator.pushNamed(context, SignUpStepOneScreen.route);
   }
 
-  void _onSignInTap() {}
+  void _onSignInTap(BuildContext context) {
+    Navigator.pushNamed(context, SignInScreen.route);
+  }
 }
