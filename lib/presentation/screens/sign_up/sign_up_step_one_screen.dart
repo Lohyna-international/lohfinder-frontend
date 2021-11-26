@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_two.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_two_screen.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 
 import 'local_widgets/sign_up_step_title.dart';
 
-class SignUpStepOne extends StatelessWidget {
+class SignUpStepOneScreen extends StatelessWidget {
   static const String route = '/sign_up_step_one';
 
-  const SignUpStepOne({Key? key}) : super(key: key);
+  const SignUpStepOneScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -36,6 +36,6 @@ class SignUpStepOne extends StatelessWidget {
       );
 
   void _onVolunteerPressed(BuildContext context) {
-    Navigator.pushNamed(context, SignUpStepTwo.route);
+    Navigator.pushNamed(context, SignUpStepTwoScreen.route);
   }
 }
