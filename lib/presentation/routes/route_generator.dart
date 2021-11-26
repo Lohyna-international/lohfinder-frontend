@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lohfinder_frontend/presentation/screens/home/home_screen.dart';
+import 'package:lohfinder_frontend/presentation/screens/sign_in/sign_in_screen.dart';
 import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_one_screen.dart';
 import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_three_screen.dart';
 import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_two_screen.dart';
@@ -12,6 +13,8 @@ class RouteGenerator {
     switch (settings.name) {
       case HomeScreen.route:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case SignInScreen.route:
+        return MaterialPageRoute(builder: (_) => const SignInScreen());
       case SignUpStepOneScreen.route:
         return MaterialPageRoute(builder: (_) => const SignUpStepOneScreen());
       case SignUpStepTwoScreen.route:

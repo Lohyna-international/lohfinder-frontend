@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/data/api/categories/mock_categories_service.dart';
 import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_step_three_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/repositories/categories_repository.dart';
+import 'package:lohfinder_frontend/presentation/styles/lf_theme.dart';
 
 import 'routes/route_generator.dart';
 import 'screens/welcome/welcome_screen.dart';
@@ -19,10 +20,11 @@ class App extends StatelessWidget {
           providers: _blocProviders(),
           child: ScreenUtilInit(
             designSize: DesignConfig.size,
-            builder: () => const MaterialApp(
+            builder: () => MaterialApp(
               title: 'Lohfinder',
               initialRoute: WelcomeScreen.route,
               onGenerateRoute: RouteGenerator.generateRoute,
+              theme: LFTheme.theme,
               debugShowCheckedModeBanner: false,
             ),
           ),
