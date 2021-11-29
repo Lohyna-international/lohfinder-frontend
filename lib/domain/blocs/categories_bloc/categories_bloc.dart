@@ -4,27 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lohfinder_frontend/data/models/category.dart';
 import 'package:lohfinder_frontend/domain/repositories/categories_repository.dart';
 
-import 'sign_up_step_three_event.dart';
-import 'sign_up_step_three_state.dart';
+import 'categories_event.dart';
+import 'categories_state.dart';
 
-class SignUpStepThreeBloc
-    extends Bloc<SignUpStepThreeEvent, SignUpStepThreeState> {
+class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final CategoriesRepository _categoriesRepository;
 
-  SignUpStepThreeBloc(this._categoriesRepository)
-      : super(SignUpStepThreeInitial()) {
-    on<LoadSignUpStepThree>(_onLoadSignUpStepThree);
+  CategoriesBloc(this._categoriesRepository) : super(CategoriesInitial()) {
+    on<LoadCategories>(_onLoadCategories);
     on<CheckCategory>(_onCheckCategory);
   }
 
-  FutureOr<void> _onLoadSignUpStepThree(
-    LoadSignUpStepThree event,
-    Emitter<SignUpStepThreeState> emit,
+  FutureOr<void> _onLoadCategories(
+    LoadCategories event,
+    Emitter<CategoriesState> emit,
   ) async {
     final List<Category> categories =
         await _categoriesRepository.allCategories();
     return emit(
-      SignUpStepThreeLoaded(
+      CategoriesLoaded(
         allCategories: categories,
         selectedCategories: const [],
       ),
@@ -33,10 +31,10 @@ class SignUpStepThreeBloc
 
   FutureOr<void> _onCheckCategory(
     CheckCategory event,
-    Emitter<SignUpStepThreeState> emit,
+    Emitter<CategoriesState> emit,
   ) {
     final currentState = state;
-    if (currentState is SignUpStepThreeLoaded) {
+    if (currentState is CategoriesLoaded) {
       final List<Category> selectedCategories =
           List<Category>.from(currentState.selectedCategories);
       if (selectedCategories.contains(event.category)) {
@@ -50,7 +48,7 @@ class SignUpStepThreeBloc
 
   bool isCategorySelected(Category category) {
     final currentState = state;
-    if (currentState is SignUpStepThreeLoaded) {
+    if (currentState is CategoriesLoaded) {
       return currentState.selectedCategories.contains(category);
     }
     return false;

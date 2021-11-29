@@ -1,28 +1,28 @@
 import 'package:equatable/equatable.dart';
 import 'package:lohfinder_frontend/data/models/category.dart';
 
-abstract class SignUpStepThreeState extends Equatable {
-  const SignUpStepThreeState();
+abstract class CategoriesState extends Equatable {
+  const CategoriesState();
 
   @override
   List<Object?> get props => [];
 }
 
-class SignUpStepThreeInitial extends SignUpStepThreeState {}
+class CategoriesInitial extends CategoriesState {}
 
-class SignUpStepThreeLoaded extends SignUpStepThreeState {
+class CategoriesLoaded extends CategoriesState {
   final List<Category> allCategories;
   final List<Category> selectedCategories;
 
-  const SignUpStepThreeLoaded({
+  const CategoriesLoaded({
     required this.allCategories,
     required this.selectedCategories,
   });
 
-  SignUpStepThreeLoaded copyWith({
+  CategoriesLoaded copyWith({
     List<Category>? selectedCategories,
   }) =>
-      SignUpStepThreeLoaded(
+      CategoriesLoaded(
         allCategories: allCategories,
         selectedCategories: selectedCategories ?? this.selectedCategories,
       );

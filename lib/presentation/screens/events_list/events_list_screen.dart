@@ -5,6 +5,7 @@ import 'package:lohfinder_frontend/data/models/event.dart';
 import 'package:lohfinder_frontend/domain/blocs/events_list_bloc/bloc.dart';
 import 'package:lohfinder_frontend/presentation/widgets/events_list_builder.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
+import 'package:lohfinder_frontend/presentation/widgets/lf_screen_title.dart';
 
 class EventsListScreen extends StatelessWidget {
   static const String route = '/events_list';
@@ -37,10 +38,7 @@ class EventsListScreen extends StatelessWidget {
 
   void _onMenuPressed() {}
 
-  Widget _title() => Text(
-        'Events list',
-        style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w500),
-      );
+  Widget _title() => const LFScreenTitle('Events list');
 
   Widget _eventsList(List<Event> events) => Expanded(
         child: EventsListBuilder(events),
