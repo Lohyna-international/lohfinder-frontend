@@ -4,6 +4,7 @@ import 'package:lohfinder_frontend/presentation/screens/events_list/events_list_
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
+import 'package:lohfinder_frontend/presentation/widgets/lf_screen_title.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_text_field.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -36,10 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       );
 
-  Widget _title() => Text(
-        'Sign in',
-        style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w500),
-      );
+  Widget _title() => const LFScreenTitle('Sign in');
 
   Widget _fields() => Padding(
         padding: EdgeInsets.symmetric(horizontal: 676.w),

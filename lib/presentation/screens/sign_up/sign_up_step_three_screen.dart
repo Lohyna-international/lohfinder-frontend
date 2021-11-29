@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lohfinder_frontend/data/models/category.dart';
-import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_step_three_bloc/bloc.dart';
+import 'package:lohfinder_frontend/domain/blocs/categories_bloc/bloc.dart';
+import 'package:lohfinder_frontend/domain/repositories/categories_repository.dart';
 import 'package:lohfinder_frontend/presentation/screens/events_list/events_list_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
+import 'package:lohfinder_frontend/presentation/widgets/categories_check_list.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
-import 'package:lohfinder_frontend/presentation/widgets/lf_checkbox_tile.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_text_field.dart';
 
@@ -23,19 +23,20 @@ class SignUpStepThreeScreen extends StatefulWidget {
 
 class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
   final TextEditingController _bioController = TextEditingController();
+  late final CategoriesBloc _categoriesBloc;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<SignUpStepThreeBloc, SignUpStepThreeState>(
-        builder: (context, state) {
-          if (state is SignUpStepThreeLoaded) {
-            return buildUI(categories: state.allCategories);
-          }
-          return Container();
-        },
-      );
+  void initState() {
+    super.initState();
+    _categoriesBloc = CategoriesBloc(
+      RepositoryProvider.of<CategoriesRepository>(context),
+    )..add(LoadCategories());
+  }
 
-  Widget buildUI({required List<Category> categories}) => Scaffold(
+  @override
+  Widget build(BuildContext context) => buildUI();
+
+  Widget buildUI() => Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -50,7 +51,7 @@ class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
               SizedBox(height: 44.h),
               _bio(),
               SizedBox(height: 33.h),
-              _interests(categories: categories),
+              _interests(),
               SizedBox(height: 50.h),
               _signUpButton(),
               SizedBox(height: 50.h),
@@ -82,42 +83,23 @@ class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
         ),
       );
 
-  Widget _interests({required List<Category> categories}) => Padding(
+  Widget _interests() => Padding(
         padding: EdgeInsets.symmetric(horizontal: 397.w),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _setYourInterests(),
-            SizedBox(height: 17.h),
-            ..._interestsList(categories: categories),
-          ],
+        child: CategoriesCheckList(
+          title: 'Set your interests',
+          bloc: _categoriesBloc,
         ),
-      );
-
-  Widget _setYourInterests() => Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'Set your interests',
-          style: TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w500),
-        ),
-      );
-
-  List<Widget> _interestsList({required List<Category> categories}) =>
-      categories.map((cat) => _categoryTile(cat)).toList();
-
-  Widget _categoryTile(Category category) => LFCheckboxTile(
-        value: BlocProvider.of<SignUpStepThreeBloc>(context)
-            .isCategorySelected(category),
-        onChanged: (_) {
-          BlocProvider.of<SignUpStepThreeBloc>(context)
-              .add(CheckCategory(category));
-        },
-        title: category.title,
       );
 
   Widget _signUpButton() => LFButton(onPressed: _signUp, text: 'Sign up');
 
   void _signUp() {
     Navigator.pushNamed(context, EventsListScreen.route);
+  }
+
+  @override
+  void dispose() {
+    _categoriesBloc.close();
+    super.dispose();
   }
 }

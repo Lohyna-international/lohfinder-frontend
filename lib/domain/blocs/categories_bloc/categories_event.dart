@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:lohfinder_frontend/data/models/category.dart';
 
-abstract class SignUpStepThreeEvent extends Equatable {
-  const SignUpStepThreeEvent();
+abstract class CategoriesEvent extends Equatable {
+  const CategoriesEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class LoadSignUpStepThree extends SignUpStepThreeEvent {}
+class LoadCategories extends CategoriesEvent {}
 
-class CheckCategory extends SignUpStepThreeEvent {
+class CheckCategory extends CategoriesEvent {
   final Category category;
 
   const CheckCategory(this.category);
