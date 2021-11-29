@@ -21,7 +21,7 @@ class LFButton extends StatelessWidget {
 
   TextStyle _textStyle() => TextStyle(
         color: LFColors.secondary,
-        fontSize: 36.sp,
+        fontSize: 32.sp,
         fontWeight: FontWeight.w500,
       );
 

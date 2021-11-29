@@ -5,6 +5,7 @@ import 'package:lohfinder_frontend/data/models/category.dart';
 import 'package:lohfinder_frontend/domain/blocs/categories_bloc/bloc.dart';
 
 import 'lf_checkbox_tile.dart';
+import 'lf_section_title.dart';
 
 class CategoriesCheckList extends StatelessWidget {
   final String title;
@@ -39,10 +40,7 @@ class CategoriesCheckList extends StatelessWidget {
 
   Widget _title() => Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w500),
-        ),
+        child: LFSectionTitle(title),
       );
 
   List<Widget> _categoriesList(List<Category> categories) =>

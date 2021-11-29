@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lohfinder_frontend/data/models/category.dart';
 import 'package:lohfinder_frontend/data/models/event.dart';
 import 'package:lohfinder_frontend/presentation/helpers/date_time_extension.dart';
+import 'package:lohfinder_frontend/presentation/screens/event_info/event_info_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
+
+import 'categories_tags.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -20,7 +22,7 @@ class EventCard extends StatelessWidget {
           children: [
             _image(),
             SizedBox(width: 80.w),
-            _info(),
+            _info(context),
           ],
         ),
       );
@@ -37,14 +39,14 @@ class EventCard extends StatelessWidget {
         color: LFColors.secondaryDark,
       );
 
-  Widget _info() => Expanded(
+  Widget _info(BuildContext context) => Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.h),
             _title(),
             SizedBox(height: 16.h),
-            _categories(),
+            CategoriesTags(event.categories),
             SizedBox(height: 16.h),
             _infoSection(event.address),
             SizedBox(height: 16.h),
@@ -54,7 +56,7 @@ class EventCard extends StatelessWidget {
               'Volunteers: ${event.volunteersJoined}/${event.volunteersNeeded}',
             ),
             SizedBox(height: 24.h),
-            _viewMore(),
+            _viewMore(context),
           ],
         ),
       );
@@ -67,29 +69,13 @@ class EventCard extends StatelessWidget {
         ),
       );
 
-  Widget _categories() => Wrap(
-        spacing: 19.w,
-        children: event.categories.map(_categoryTag).toList(),
-      );
-
-  Widget _categoryTag(Category category) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 9.h),
-        decoration: _categoryTagDecoration(),
-        child: Text(category.title, style: TextStyle(fontSize: 24.sp)),
-      );
-
-  Decoration _categoryTagDecoration() => BoxDecoration(
-        color: LFColors.primaryLight,
-        borderRadius: BorderRadius.circular(10.r),
-      );
-
   Widget _infoSection(String text) => Text(
         text,
         style: TextStyle(fontSize: 24.sp),
       );
 
-  Widget _viewMore() => InkWell(
-        onTap: _onViewMoreTap,
+  Widget _viewMore(BuildContext context) => InkWell(
+        onTap: () => _onViewMoreTap(context),
         child: Text(
           'View more',
           style: TextStyle(
@@ -101,5 +87,7 @@ class EventCard extends StatelessWidget {
         ),
       );
 
-  void _onViewMoreTap() {}
+  void _onViewMoreTap(BuildContext context) {
+    Navigator.pushNamed(context, EventInfoScreen.route, arguments: event);
+  }
 }
