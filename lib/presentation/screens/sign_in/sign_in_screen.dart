@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/events_list/events_list_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
@@ -86,5 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _signInButton() => LFButton(onPressed: _signIn, text: 'Sign in');
 
-  void _signIn() {}
+  void _signIn() {
+    Navigator.pushNamed(context, EventsListScreen.route);
+  }
 }

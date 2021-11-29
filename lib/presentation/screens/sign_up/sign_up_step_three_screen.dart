@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/data/models/category.dart';
 import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_step_three_bloc/bloc.dart';
+import 'package:lohfinder_frontend/presentation/screens/events_list/events_list_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_checkbox_tile.dart';
@@ -114,5 +115,9 @@ class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
         title: category.title,
       );
 
-  Widget _signUpButton() => LFButton(onPressed: () {}, text: 'Sign up');
+  Widget _signUpButton() => LFButton(onPressed: _signUp, text: 'Sign up');
+
+  void _signUp() {
+    Navigator.pushNamed(context, EventsListScreen.route);
+  }
 }
