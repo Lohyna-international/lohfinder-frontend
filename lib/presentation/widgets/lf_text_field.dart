@@ -30,7 +30,7 @@ class LFTextField extends StatelessWidget {
         maxLines: linesCount,
       );
 
-  TextStyle _style() => TextStyle(fontSize: 36.sp);
+  TextStyle _style() => TextStyle(fontSize: 32.sp);
 
   InputDecoration _decoration() => InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 21.h, horizontal: 29.w),
