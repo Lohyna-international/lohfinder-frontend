@@ -23,7 +23,7 @@ class EventInfoScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              LFHeader(onMenuPressed: _onMenuPressed),
+              const LFHeader(showMenuButton: true),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 413.w),
                 child: _content(context),
@@ -32,8 +32,6 @@ class EventInfoScreen extends StatelessWidget {
           ),
         ),
       );
-
-  void _onMenuPressed() {}
 
   Widget _content(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
