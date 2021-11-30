@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
+import 'package:lohfinder_frontend/presentation/widgets/lf_menu.dart';
 
 class LFHeader extends StatelessWidget {
-  //TODO probably should be handled by MenuBloc, not passed as parameter
-  final void Function()? onMenuPressed;
+  final bool showMenuButton;
 
-  const LFHeader({Key? key, this.onMenuPressed}) : super(key: key);
+  const LFHeader({Key? key, this.showMenuButton = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -18,9 +18,9 @@ class LFHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _title(),
-            if (onMenuPressed != null) ...[
+            if (showMenuButton) ...[
               const Spacer(),
-              _menuButton(),
+              const LFMenu(),
             ],
           ],
         ),
@@ -32,12 +32,5 @@ class LFHeader extends StatelessWidget {
           fontSize: 72.sp,
           fontWeight: FontWeight.w500,
         ),
-      );
-
-  Widget _menuButton() => IconButton(
-        icon: Icon(Icons.menu, size: 64.r, color: LFColors.textPrimary),
-        onPressed: onMenuPressed,
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(minWidth: 72.r, minHeight: 72.r),
       );
 }

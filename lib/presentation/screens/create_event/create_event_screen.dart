@@ -42,7 +42,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              LFHeader(onMenuPressed: _onMenuPressed),
+              const LFHeader(showMenuButton: true),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 413.w),
                 child: _content(),
@@ -51,8 +51,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
           ),
         ),
       );
-
-  void _onMenuPressed() {}
 
   Widget _content() => Column(
         mainAxisSize: MainAxisSize.min,

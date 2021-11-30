@@ -26,7 +26,7 @@ class EventsListScreen extends StatelessWidget {
   Widget buildUI({required List<Event> events}) => Scaffold(
         body: Column(
           children: [
-            LFHeader(onMenuPressed: _onMenuPressed),
+            const LFHeader(showMenuButton: true),
             SizedBox(height: 40.h),
             _title(),
             SizedBox(height: 40.h),
@@ -35,8 +35,6 @@ class EventsListScreen extends StatelessWidget {
           ],
         ),
       );
-
-  void _onMenuPressed() {}
 
   Widget _title() => const LFScreenTitle('Events list');
 
