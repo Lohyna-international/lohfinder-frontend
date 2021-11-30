@@ -40,7 +40,7 @@ class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const LFHeader(),
+              const LFHeader(showBackButton: true),
               SizedBox(height: 20.h),
               const SignUpStepTitle(
                 stepNumber: 3,
@@ -94,7 +94,11 @@ class _SignUpStepThreeScreenState extends State<SignUpStepThreeScreen> {
   Widget _signUpButton() => LFButton(onPressed: _signUp, text: 'Sign up');
 
   void _signUp() {
-    Navigator.pushNamed(context, EventsListScreen.route);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      EventsListScreen.route,
+      (route) => false,
+    );
   }
 
   @override

@@ -23,7 +23,7 @@ class EventInfoScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const LFHeader(showMenuButton: true),
+              const LFHeader(showMenuButton: true, showBackButton: true),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 413.w),
                 child: _content(context),
