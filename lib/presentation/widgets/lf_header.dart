@@ -5,8 +5,13 @@ import 'package:lohfinder_frontend/presentation/widgets/lf_menu.dart';
 
 class LFHeader extends StatelessWidget {
   final bool showMenuButton;
+  final bool showBackButton;
 
-  const LFHeader({Key? key, this.showMenuButton = false}) : super(key: key);
+  const LFHeader({
+    Key? key,
+    this.showMenuButton = false,
+    this.showBackButton = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -17,11 +22,13 @@ class LFHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _title(),
-            if (showMenuButton) ...[
+            if (showBackButton) ...[
+              _backButton(context),
               const Spacer(),
-              const LFMenu(),
             ],
+            _title(),
+            if (showBackButton || showMenuButton) const Spacer(),
+            if (showMenuButton) const LFMenu(),
           ],
         ),
       );
@@ -32,5 +39,12 @@ class LFHeader extends StatelessWidget {
           fontSize: 72.sp,
           fontWeight: FontWeight.w500,
         ),
+      );
+
+  Widget _backButton(BuildContext context) => IconButton(
+        icon: Icon(Icons.arrow_back, size: 64.r, color: LFColors.textPrimary),
+        onPressed: () => Navigator.pop(context),
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(minWidth: 72.r, minHeight: 72.r),
       );
 }

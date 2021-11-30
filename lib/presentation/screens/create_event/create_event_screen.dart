@@ -42,7 +42,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const LFHeader(showMenuButton: true),
+              const LFHeader(showMenuButton: true, showBackButton: true),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 413.w),
                 child: _content(),

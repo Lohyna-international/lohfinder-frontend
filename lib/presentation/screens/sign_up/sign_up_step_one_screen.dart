@@ -15,7 +15,7 @@ class SignUpStepOneScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: Column(
           children: [
-            const LFHeader(),
+            const LFHeader(showBackButton: true),
             SizedBox(height: 20.h),
             const SignUpStepTitle(
               stepNumber: 1,

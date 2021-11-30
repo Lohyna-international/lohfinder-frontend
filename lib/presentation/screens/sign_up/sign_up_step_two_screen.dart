@@ -27,7 +27,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget build(BuildContext context) => Scaffold(
         body: Column(
           children: [
-            const LFHeader(),
+            const LFHeader(showBackButton: true),
             SizedBox(height: 20.h),
             const SignUpStepTitle(
               stepNumber: 2,

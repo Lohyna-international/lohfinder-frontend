@@ -26,7 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget buildUI() => Scaffold(
         body: Column(
           children: [
-            const LFHeader(),
+            const LFHeader(showBackButton: true),
             SizedBox(height: 80.h),
             _title(),
             SizedBox(height: 80.h),
@@ -86,6 +86,10 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget _signInButton() => LFButton(onPressed: _signIn, text: 'Sign in');
 
   void _signIn() {
-    Navigator.pushNamed(context, EventsListScreen.route);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      EventsListScreen.route,
+      (route) => false,
+    );
   }
 }
