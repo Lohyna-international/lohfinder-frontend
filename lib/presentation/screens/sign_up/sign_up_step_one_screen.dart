@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_flow_bloc/bloc.dart';
 import 'package:lohfinder_frontend/presentation/screens/sign_up/sign_up_step_two_screen.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
@@ -23,19 +25,26 @@ class SignUpStepOneScreen extends StatelessWidget {
             ),
             SizedBox(height: 66.h),
             LFButton(
-              onPressed: () => _onVolunteerPressed(context),
+              onPressed: () => _onButtonPressed(
+                context,
+                SignUpFlowType.volunteer,
+              ),
               text: "I'm a volunteer",
             ),
             SizedBox(height: 66.h),
             LFButton(
-              onPressed: () {},
-              text: "I'm an organisator",
+              onPressed: () => _onButtonPressed(
+                context,
+                SignUpFlowType.organizer,
+              ),
+              text: "I'm an organizer",
             ),
           ],
         ),
       );
 
-  void _onVolunteerPressed(BuildContext context) {
+  void _onButtonPressed(BuildContext context, SignUpFlowType type) {
+    BlocProvider.of<SignUpFlowBloc>(context).add(FlowStarted(type: type));
     Navigator.pushNamed(context, SignUpStepTwoScreen.route);
   }
 }
