@@ -20,11 +20,19 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  late final SignInBloc _bloc;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _bloc = SignInBloc();
+  }
+
+  @override
   Widget build(BuildContext context) => BlocBuilder<SignInBloc, SignInState>(
+        bloc: _bloc,
         builder: (context, state) {
           if (state is SignInInitial) {
             return buildUI(state);
@@ -70,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget _emailField({required bool isValid}) => LFTextField(
         controller: _emailController,
         onChanged: (text) {
-          _blocAddEvent(EmailChanged(text));
+          _bloc.add(EmailChanged(text));
         },
         hintText: 'Email',
         isValid: isValid,
@@ -79,7 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget _passwordField({required bool isValid}) => LFTextField(
         controller: _passwordController,
         onChanged: (text) {
-          _blocAddEvent(PasswordChanged(text));
+          _bloc.add(PasswordChanged(text));
         },
         hintText: 'Password',
         obscureText: true,
@@ -109,8 +117,8 @@ class _SignInScreenState extends State<SignInScreen> {
         enabled: _enableButton(),
       );
 
-  bool _enableButton() => BlocProvider.of<SignInBloc>(context)
-      .enableButton(_emailController.text, _passwordController.text);
+  bool _enableButton() =>
+      _bloc.enableButton(_emailController.text, _passwordController.text);
 
   void _signIn() {
     Navigator.pushNamedAndRemoveUntil(
@@ -120,7 +128,9 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _blocAddEvent(SignInEvent event) {
-    BlocProvider.of<SignInBloc>(context).add(event);
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/domain/blocs/categories_bloc/bloc.dart';
+import 'package:lohfinder_frontend/domain/blocs/create_event_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/repositories/categories_repository.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/categories_check_list.dart';
@@ -9,6 +11,7 @@ import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_screen_title.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_text_field.dart';
+import 'package:lohfinder_frontend/presentation/widgets/lf_validation_message.dart';
 
 class CreateEventScreen extends StatefulWidget {
   static const String route = '/create_event_screen';
@@ -20,39 +23,50 @@ class CreateEventScreen extends StatefulWidget {
 }
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
+  late final CreateEventBloc _bloc;
+  late final CategoriesBloc _categoriesBloc;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _volunteersController = TextEditingController();
-  late final CategoriesBloc _categoriesBloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = CreateEventBloc();
     _categoriesBloc = CategoriesBloc(
       RepositoryProvider.of<CategoriesRepository>(context),
     )..add(LoadCategories());
   }
 
   @override
-  Widget build(BuildContext context) => buildUI();
+  Widget build(BuildContext context) =>
+      BlocBuilder<CreateEventBloc, CreateEventState>(
+        bloc: _bloc,
+        builder: (context, state) {
+          if (state is CreateEventInitial) {
+            return buildUI(state);
+          }
+          return Container();
+        },
+      );
 
-  Widget buildUI() => Scaffold(
+  Widget buildUI(CreateEventInitial state) => Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
               const LFHeader(showMenuButton: true, showBackButton: true),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 413.w),
-                child: _content(),
+                child: _content(state),
               ),
             ],
           ),
         ),
       );
 
-  Widget _content() => Column(
+  Widget _content(CreateEventInitial state) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 35.h),
@@ -66,9 +80,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
           SizedBox(height: 35.h),
           _addressField(),
           SizedBox(height: 35.h),
-          _dateField(),
+          _dateField(isValid: state.dateValidation.isValid),
+          if (!state.dateValidation.isValid)
+            LFValidationMessage(state.dateValidation.errorMessage!),
           SizedBox(height: 35.h),
-          _volunteersField(),
+          _volunteersField(isValid: state.volunteersValidation.isValid),
+          if (!state.volunteersValidation.isValid)
+            LFValidationMessage(state.volunteersValidation.errorMessage!),
           SizedBox(height: 35.h),
           _categories(),
           SizedBox(height: 50.h),
@@ -90,7 +108,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   Widget _titleField() => LFTextField(
         controller: _titleController,
-        onChanged: (_) {},
+        onChanged: (_) {
+          _bloc.add(RequiredFieldChanged());
+        },
         hintText: 'Title',
       );
 
@@ -103,20 +123,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   Widget _addressField() => LFTextField(
         controller: _addressController,
-        onChanged: (_) {},
+        onChanged: (_) {
+          _bloc.add(RequiredFieldChanged());
+        },
         hintText: 'Address',
       );
 
-  Widget _dateField() => LFTextField(
+  Widget _dateField({required bool isValid}) => LFTextField(
         controller: _dateController,
-        onChanged: (_) {},
-        hintText: 'Date',
+        onChanged: (text) {
+          _bloc.add(DateChanged(text));
+        },
+        hintText: 'Date (dd.mm.yyyy)',
       );
 
-  Widget _volunteersField() => LFTextField(
+  Widget _volunteersField({required bool isValid}) => LFTextField(
         controller: _volunteersController,
-        onChanged: (_) {},
+        onChanged: (text) {
+          _bloc.add(VolunteersChanged(text));
+        },
         hintText: 'Number of volunteers',
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       );
 
   Widget _categories() => CategoriesCheckList(
@@ -127,6 +154,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget _createButton() => LFButton(
         onPressed: _createEvent,
         text: 'Create event',
+        enabled: _enableButton(),
+      );
+
+  bool _enableButton() => _bloc.enableButton(
+        title: _titleController.text,
+        address: _addressController.text,
+        date: _dateController.text,
+        volunteers: _volunteersController.text,
       );
 
   void _createEvent() {
@@ -135,6 +170,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   void dispose() {
+    _bloc.close();
     _categoriesBloc.close();
     super.dispose();
   }

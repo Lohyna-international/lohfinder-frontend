@@ -22,6 +22,7 @@ class SignUpStepTwoScreen extends StatefulWidget {
 }
 
 class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
+  late final SignUpStepTwoBloc _bloc;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -29,8 +30,15 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   final TextEditingController _ageController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _bloc = SignUpStepTwoBloc();
+  }
+
+  @override
   Widget build(BuildContext context) =>
       BlocBuilder<SignUpStepTwoBloc, SignUpStepTwoState>(
+        bloc: _bloc,
         builder: (context, state) {
           if (state is SignUpStepTwoInitial) {
             return buildUI(state);
@@ -89,7 +97,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget _emailField({required bool isValid}) => LFTextField(
         controller: _emailController,
         onChanged: (text) {
-          _blocAddEvent(EmailChanged(text));
+          _bloc.add(EmailChanged(text));
         },
         hintText: 'Email',
         isValid: isValid,
@@ -98,7 +106,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget _passwordField({required bool isValid}) => LFTextField(
         controller: _passwordController,
         onChanged: (text) {
-          _blocAddEvent(PasswordChanged(text));
+          _bloc.add(PasswordChanged(text));
         },
         hintText: 'Password',
         obscureText: true,
@@ -108,7 +116,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget _phoneField({required bool isValid}) => LFTextField(
         controller: _phoneController,
         onChanged: (text) {
-          _blocAddEvent(PhoneChanged(text));
+          _bloc.add(PhoneChanged(text));
         },
         hintText: 'Phone',
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -118,7 +126,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget _nameField({required bool isValid}) => LFTextField(
         controller: _nameController,
         onChanged: (text) {
-          _blocAddEvent(NameChanged(text));
+          _bloc.add(NameChanged(text));
         },
         hintText: _isVolunteer() ? 'Name' : 'Company name',
         isValid: isValid,
@@ -127,7 +135,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   Widget _ageField({required bool isValid}) => LFTextField(
         controller: _ageController,
         onChanged: (text) {
-          _blocAddEvent(AgeChanged(text));
+          _bloc.add(AgeChanged(text));
         },
         hintText: 'Age',
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -147,8 +155,7 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
   bool _isVolunteer() =>
       BlocProvider.of<SignUpFlowBloc>(context).isVolunteerFlow();
 
-  bool _enableButton() =>
-      BlocProvider.of<SignUpStepTwoBloc>(context).enableButton(
+  bool _enableButton() => _bloc.enableButton(
         _emailController.text,
         _passwordController.text,
         _phoneController.text,
@@ -157,7 +164,9 @@ class _SignUpStepTwoScreenState extends State<SignUpStepTwoScreen> {
         isVolunteer: _isVolunteer(),
       );
 
-  void _blocAddEvent(SignUpStepTwoEvent event) {
-    BlocProvider.of<SignUpStepTwoBloc>(context).add(event);
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 }

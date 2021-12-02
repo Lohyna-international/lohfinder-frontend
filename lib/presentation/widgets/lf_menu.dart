@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/presentation/screens/create_event/create_event_screen.dart';
 import 'package:lohfinder_frontend/presentation/screens/welcome/welcome_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 
@@ -21,12 +22,21 @@ class LFMenu extends StatelessWidget {
         _divider(),
         _item('My events', onTap: () {}),
         _divider(),
+
+        //TODO only for organizers
+        _item('Create event', onTap: () => _createEvent(context)),
+        _divider(),
+
         _item('Sign out', onTap: () => _signOut(context)),
       ];
 
   PopupMenuEntry _item(String title, {required void Function() onTap}) =>
       PopupMenuItem(
-        onTap: onTap,
+        onTap: () {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            onTap.call();
+          });
+        },
         child: Text(title, style: TextStyle(fontSize: 32.sp)),
         height: 48.h,
         padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 8.h),
@@ -40,12 +50,14 @@ class LFMenu extends StatelessWidget {
       );
 
   void _signOut(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback(
-      (_) => Navigator.pushNamedAndRemoveUntil(
-        context,
-        WelcomeScreen.route,
-        (route) => false,
-      ),
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      WelcomeScreen.route,
+      (route) => false,
     );
+  }
+
+  void _createEvent(BuildContext context) {
+    Navigator.pushNamed(context, CreateEventScreen.route);
   }
 }
