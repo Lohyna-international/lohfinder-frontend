@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
       );
 
   Widget _appDescription() => Text(
-        'This is a beautiful app which helps organisations to find volunteers '
+        'This is a beautiful app which helps organizations to find volunteers '
         'for events and from the other side it helps people to find '
         'interesting events where they can gain some volunteering '
         'experience.',

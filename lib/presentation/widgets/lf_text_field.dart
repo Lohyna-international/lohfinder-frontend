@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 
@@ -8,6 +9,8 @@ class LFTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final int linesCount;
+  final bool isValid;
+  final List<TextInputFormatter>? inputFormatters;
 
   const LFTextField({
     Key? key,
@@ -16,6 +19,8 @@ class LFTextField extends StatelessWidget {
     required this.hintText,
     this.obscureText = false,
     this.linesCount = 1,
+    this.isValid = true,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -28,6 +33,7 @@ class LFTextField extends StatelessWidget {
         cursorColor: LFColors.primary,
         minLines: linesCount,
         maxLines: linesCount,
+        inputFormatters: inputFormatters,
       );
 
   TextStyle _style() => TextStyle(fontSize: 32.sp);
@@ -47,5 +53,8 @@ class LFTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.r),
       );
 
-  BorderSide _borderSide() => BorderSide(color: LFColors.primary, width: 2.r);
+  BorderSide _borderSide() => BorderSide(
+        color: isValid ? LFColors.primary : Colors.red,
+        width: 2.r,
+      );
 }

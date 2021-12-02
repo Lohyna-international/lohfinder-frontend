@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lohfinder_frontend/domain/blocs/sign_in_bloc/bloc.dart';
 import 'package:lohfinder_frontend/presentation/screens/events_list/events_list_screen.dart';
 import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_screen_title.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_text_field.dart';
+import 'package:lohfinder_frontend/presentation/widgets/lf_validation_message.dart';
 
 class SignInScreen extends StatefulWidget {
   static const String route = '/sign_in';
@@ -21,16 +24,23 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) => buildUI();
+  Widget build(BuildContext context) => BlocBuilder<SignInBloc, SignInState>(
+        builder: (context, state) {
+          if (state is SignInInitial) {
+            return buildUI(state);
+          }
+          return Container();
+        },
+      );
 
-  Widget buildUI() => Scaffold(
+  Widget buildUI(SignInInitial state) => Scaffold(
         body: Column(
           children: [
             const LFHeader(showBackButton: true),
             SizedBox(height: 80.h),
             _title(),
             SizedBox(height: 80.h),
-            _fields(),
+            _fields(state),
             SizedBox(height: 80.h),
             _signInButton(),
           ],
@@ -39,31 +49,41 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _title() => const LFScreenTitle('Sign in');
 
-  Widget _fields() => Padding(
+  Widget _fields(SignInInitial state) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 676.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _emailField(),
+            _emailField(isValid: state.emailValidation.isValid),
+            if (!state.emailValidation.isValid)
+              LFValidationMessage(state.emailValidation.errorMessage!),
             SizedBox(height: 50.h),
-            _passwordField(),
+            _passwordField(isValid: state.passwordValidation.isValid),
+            if (!state.passwordValidation.isValid)
+              LFValidationMessage(state.passwordValidation.errorMessage!),
             SizedBox(height: 40.h),
             _forgotPassword(),
           ],
         ),
       );
 
-  Widget _emailField() => LFTextField(
+  Widget _emailField({required bool isValid}) => LFTextField(
         controller: _emailController,
-        onChanged: (_) {},
+        onChanged: (text) {
+          _blocAddEvent(EmailChanged(text));
+        },
         hintText: 'Email',
+        isValid: isValid,
       );
 
-  Widget _passwordField() => LFTextField(
+  Widget _passwordField({required bool isValid}) => LFTextField(
         controller: _passwordController,
-        onChanged: (_) {},
+        onChanged: (text) {
+          _blocAddEvent(PasswordChanged(text));
+        },
         hintText: 'Password',
         obscureText: true,
+        isValid: isValid,
       );
 
   Widget _forgotPassword() => Align(
@@ -83,7 +103,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onForgotPasswordTap() {}
 
-  Widget _signInButton() => LFButton(onPressed: _signIn, text: 'Sign in');
+  Widget _signInButton() => LFButton(
+        onPressed: _signIn,
+        text: 'Sign in',
+        enabled: _enableButton(),
+      );
+
+  bool _enableButton() => BlocProvider.of<SignInBloc>(context)
+      .enableButton(_emailController.text, _passwordController.text);
 
   void _signIn() {
     Navigator.pushNamedAndRemoveUntil(
@@ -91,5 +118,9 @@ class _SignInScreenState extends State<SignInScreen> {
       EventsListScreen.route,
       (route) => false,
     );
+  }
+
+  void _blocAddEvent(SignInEvent event) {
+    BlocProvider.of<SignInBloc>(context).add(event);
   }
 }
