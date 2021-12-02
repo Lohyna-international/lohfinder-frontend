@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/data/api/categories/mock_categories_service.dart';
 import 'package:lohfinder_frontend/data/api/events/mock_events_service.dart';
+import 'package:lohfinder_frontend/domain/blocs/create_event_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/blocs/events_list_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/blocs/sign_in_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_flow_bloc/bloc.dart';
@@ -51,8 +52,6 @@ class App extends StatelessWidget {
             RepositoryProvider.of<EventsRepository>(context),
           )..add(LoadEvents()),
         ),
-        BlocProvider<SignInBloc>(create: (_) => SignInBloc()),
         BlocProvider<SignUpFlowBloc>(create: (_) => SignUpFlowBloc()),
-        BlocProvider<SignUpStepTwoBloc>(create: (_) => SignUpStepTwoBloc()),
       ];
 }
