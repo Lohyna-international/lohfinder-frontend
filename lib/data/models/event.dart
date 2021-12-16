@@ -12,8 +12,7 @@ class Event extends Equatable {
   final int volunteersNeeded;
   final int volunteersJoined;
   final String authorId;
-
-  //TODO add [image] or [imageUrl]
+  final String imageUrl;
 
   const Event({
     required this.id,
@@ -25,6 +24,7 @@ class Event extends Equatable {
     required this.volunteersNeeded,
     required this.volunteersJoined,
     required this.authorId,
+    required this.imageUrl,
   });
 
   @override
@@ -38,5 +38,6 @@ class Event extends Equatable {
         volunteersNeeded,
         volunteersJoined,
         authorId,
+        imageUrl,
       ];
 }

@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/data/api/categories/mock_categories_service.dart';
 import 'package:lohfinder_frontend/data/api/events/mock_events_service.dart';
-import 'package:lohfinder_frontend/domain/blocs/create_event_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/blocs/events_list_bloc/bloc.dart';
-import 'package:lohfinder_frontend/domain/blocs/sign_in_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_flow_bloc/bloc.dart';
-import 'package:lohfinder_frontend/domain/blocs/sign_up/sign_up_step_two_bloc/bloc.dart';
 import 'package:lohfinder_frontend/domain/repositories/categories_repository.dart';
 import 'package:lohfinder_frontend/domain/repositories/events_repository.dart';
 

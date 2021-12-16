@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lohfinder_frontend/data/models/event.dart';
 import 'package:lohfinder_frontend/presentation/helpers/date_time_extension.dart';
-import 'package:lohfinder_frontend/presentation/styles/lf_colors.dart';
 import 'package:lohfinder_frontend/presentation/widgets/categories_tags.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_button.dart';
 import 'package:lohfinder_frontend/presentation/widgets/lf_header.dart';
@@ -64,12 +63,10 @@ class EventInfoScreen extends StatelessWidget {
         child: LFScreenTitle(event.title),
       );
 
-  //TODO should be actual image
-  Widget _image() => Container(
+  Widget _image() => Image.network(
+        event.imageUrl,
         width: 1093.w,
         height: 426.h,
-        color: LFColors.secondaryDark,
-        child: Icon(Icons.image, size: 128.r),
       );
 
   Widget _joinButton(BuildContext context) => Align(
