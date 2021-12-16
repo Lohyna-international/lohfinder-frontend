@@ -32,11 +32,11 @@ class EventCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.r),
       );
 
-  //TODO should be actually image
-  Widget _image() => Container(
+  Widget _image() => Image.network(
+        event.imageUrl,
         width: 343.w,
         height: 198.h,
-        color: LFColors.secondaryDark,
+        fit: BoxFit.cover,
       );
 
   Widget _info(BuildContext context) => Expanded(
